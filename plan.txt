@@ -7,7 +7,7 @@ class Deck
 end
 
 class Card
-  attributes: color?, suit, value
+  attributes: suit, value
 end
 
 class Player

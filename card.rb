@@ -1,8 +1,12 @@
 class Card
 
-  def initialize(suit, value)
+  def initialize(rank, suit)
     @suit = suit
-    @value = value
+    @rank = rank
   end
-  
+
+  def to_s
+    "#{@rank} of #{@suit}"
+  end
+
 end

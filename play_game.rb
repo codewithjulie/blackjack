@@ -1,3 +1,5 @@
-require_relative "blackjack"
+require_relative "deck"
 
-game = BlackJack.new
+deck = Deck.new
+deck.shuffle_deck
+puts deck.cards

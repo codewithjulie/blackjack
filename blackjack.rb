@@ -47,6 +47,9 @@ class BlackJack
         @current_player.hand << hit_card
         print "You now have "
         @current_player.hand.each {|card| print "#{card} "}
+        if @current_player.bust?
+          return puts "Sorry you busted"
+        end
         player_play = @current_player.get_play
       end
     end

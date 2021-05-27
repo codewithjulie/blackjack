@@ -18,30 +18,16 @@ class Player
     puts
   end
 
-  def natural?
-    @hand.reduce(0) { |sum, card| sum + card.value } == 21
+  def hand_value
+    @hand.reduce(0) { |sum, card| sum + card.value }
+  end
 
-    # sum = 0
-    # @hand.each do |card|
-    #   sum += card.value
-    # end
-    # if sum == 21
-    #   return true
-    # else
-    #   return false
-    # end
+  def blackjack?
+    hand_value == 21
   end
 
   def bust?
-    sum = 0
-    @hand.each do |card|
-      sum += card.value
-    end
-    if sum > 21
-      return true
-    else
-      return false
-    end
+    hand_value > 21
   end
 
   def get_play

@@ -3,6 +3,10 @@ require_relative "card"
 class Deck
   attr_accessor :cards
 
+  SUITS = ["Spades", "Clubs", "Diamonds", "Hearts"]
+  RANKS = ["Ace", "King", "Queen", "Jack", "Ten", "Nine", "Eight", "Seven", "Six", "Five", "Four", "Three", "Two"]
+  VALUES = [11, 10, 10, 10, 10, 9, 8, 7, 6, 5, 4, 3, 2]
+  
   def initialize
     @cards = []
     create_deck
@@ -17,12 +21,9 @@ class Deck
   end
 
   def create_deck
-    suits = ["Spades", "Clubs", "Diamonds", "Hearts"]
-    ranks = ["Ace", "King", "Queen", "Jack", "Ten", "Nine", "Eight", "Seven", "Six", "Five", "Four", "Three", "Two"]
-    values = [11, 10, 10, 10, 10, 9, 8, 7, 6, 5, 4, 3, 2]
-    suits.each do |suit|
-      ranks.each_with_index do |rank, index|
-        @cards << Card.new(rank, suit, values[index])
+    SUITS.each do |suit|
+      RANKS.each_with_index do |rank, index|
+        @cards << Card.new(rank, suit, VALUES[index])
       end
     end
   end

@@ -1,6 +1,7 @@
 require_relative "deck"
 require_relative "player"
 require_relative "card"
+require "colorize"
 
 class BlackJack
 
@@ -37,8 +38,8 @@ class BlackJack
   end
 
   def get_player_play
-    if @current_player.natural?
-      return puts "You got Black Jack!"
+    if @current_player.blackjack?
+      return puts "You got Black Jack!".colorize(:green)
     else
       player_play = @current_player.get_play
       while player_play == "hit"
@@ -47,8 +48,11 @@ class BlackJack
         @current_player.hand << hit_card
         print "You now have "
         @current_player.hand.each {|card| print "#{card} "}
+        puts
         if @current_player.bust?
-          return puts "Sorry you busted"
+          return puts "Sorry you busted".colorize(:red)
+        elsif @current_player.blackjack?
+          return puts "You got twenty-one!".colorize(:green)
         end
         player_play = @current_player.get_play
       end

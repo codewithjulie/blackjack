@@ -32,14 +32,16 @@ class BlackJack
   end
 
   def next_player
-    current_index = @players.find(@current_player)
+    current_index = @players.find_index(@current_player)
     @current_player = @players[(current_index + 1)]
   end
 
   def get_player_play
     player_play = @current_player.get_play
-    while player_play == "hit" || "h"
-      @current_player.hand << @deck.draw
+    while player_play == "hit"
+      hit_card = @deck.draw
+      puts "You just received a #{hit_card}"
+      @current_player.hand << hit_card
       player_play = @current_player.get_play
     end
   end

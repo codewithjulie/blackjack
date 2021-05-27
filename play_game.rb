@@ -1,5 +1,14 @@
 require_relative "deck"
+require_relative "player"
+require_relative "blackjack"
 
-deck = Deck.new
-deck.shuffle_deck
-puts deck.cards
+
+game = BlackJack.new([Player.new("Bob", true), Player.new("Mary")])
+
+puts game.players
+
+game.deal
+
+puts game.players
+
+puts game.deck.cards.size

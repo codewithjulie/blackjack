@@ -14,22 +14,22 @@ class Player
 
   def display_hand
     print "#{@name} is holding: "
-    @hand.each do |card|
-      print "#{card}, "
-    end
+    @hand.each { |card| print "#{card}, " } 
     puts
   end
 
   def natural?
-    sum = 0
-    @hand.each do |card|
-      sum += card.value
-    end
-    if sum == 21
-      return true
-    else
-      return false
-    end
+    @hand.reduce(0) { |sum, card| sum + card.value } == 21
+
+    # sum = 0
+    # @hand.each do |card|
+    #   sum += card.value
+    # end
+    # if sum == 21
+    #   return true
+    # else
+    #   return false
+    # end
   end
 
   def bust?

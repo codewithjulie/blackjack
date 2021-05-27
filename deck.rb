@@ -32,7 +32,3 @@ class Deck
   end
 
 end
-
-# I need 52 cards, 13 each suit, and values from 1-10, J, Q, K
-# How do I shuffle the cards? 
-# Do I draw a card from the deck?

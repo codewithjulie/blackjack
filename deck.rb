@@ -19,9 +19,10 @@ class Deck
   def create_deck
     suits = ["Spades", "Clubs", "Diamonds", "Hearts"]
     ranks = ["Ace", "King", "Queen", "Jack", "Ten", "Nine", "Eight", "Seven", "Six", "Five", "Four", "Three", "Two"]
+    values = [11, 10, 10, 10, 10, 9, 8, 7, 6, 5, 4, 3, 2]
     suits.each do |suit|
-      ranks.each do |rank|
-        @cards << Card.new(rank, suit)
+      ranks.each_with_index do |rank, index|
+        @cards << Card.new(rank, suit, values[index])
       end
     end
   end

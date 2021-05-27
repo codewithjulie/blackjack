@@ -9,12 +9,38 @@ class Player
   end
 
   def to_s
-    "#{@name} is a dealer? #{@dealer}"
+    @name
   end
 
   def display_hand
+    print "#{@name} is holding: "
     @hand.each do |card|
-      print "#{card} "
+      print "#{card}, "
+    end
+    puts
+  end
+
+  def natural?
+    sum = 0
+    @hand.each do |card|
+      sum += card.value
+    end
+    if sum == 21
+      return true
+    else
+      return false
+    end
+  end
+
+  def bust?
+    sum = 0
+    @hand.each do |card|
+      sum += card.value
+    end
+    if sum > 21
+      return true
+    else
+      return false
     end
   end
 

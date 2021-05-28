@@ -30,6 +30,10 @@ class Player
     hand_value > 21
   end
 
+  def dealer_stand?
+    hand_value > 16
+  end
+
   def get_play
     print "#{@name} would you like to stand or hit? "
     play = gets.chomp.downcase
@@ -47,3 +51,4 @@ class Player
 
 
 end
+

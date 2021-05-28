@@ -42,18 +42,33 @@ class BlackJack
     else
       player_play = @current_player.get_play
       while player_play == "hit"
-        hit_card = @deck.draw
-        puts "You just received a #{hit_card}"
-        @current_player.hand << hit_card
-        print "You now have "
-        @current_player.hand.each {|card| print "#{card} "}
-        puts
+        player_hit
         if @current_player.bust?
           return puts "Sorry you busted".colorize(:red)
         elsif @current_player.blackjack?
           return puts "You got twenty-one!".colorize(:green)
         end
         player_play = @current_player.get_play
+      end
+    end
+  end
+
+  def player_hit
+    hit_card = @deck.draw
+    puts "You just received a #{hit_card}"
+    @current_player.hand << hit_card
+    print "You now have "
+    @current_player.hand.each {|card| print "#{card} "}
+    puts
+  end
+
+  def dealer_play
+    until @current_player.dealer_stand?
+      player_hit
+      if @current_player.bust?
+        return puts "Dealer busted".colorize(:red)
+      elsif @current_player.blackjack?
+        return puts "Dealer got twenty-one!".colorize(:green)
       end
     end
   end

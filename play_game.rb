@@ -18,3 +18,5 @@ until game.current_player.dealer
   end
   game.next_player
 end
+
+game.dealer_play

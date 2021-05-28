@@ -33,12 +33,16 @@ class Player
   def get_play
     print "#{@name} would you like to stand or hit? "
     play = gets.chomp.downcase
-    until play == "stand" || play == "hit"
+    until valid_play?(play)
       puts "I did not understand that input"
       print "#{@name} would you like to stand or hit? "
       play = gets.chomp.downcase
     end
     play
+  end
+
+  def valid_play?(play)
+    play == "stand" || play == "hit"
   end
 
 

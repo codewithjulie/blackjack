@@ -20,11 +20,10 @@ class BlackJack
   end
 
   def deal
-    @players.each do |player|
-      player.hand << @deck.draw
-    end
-    @players.each do |player|
-      player.hand << @deck.draw
+    2.times do
+      @players.each do |player|
+        player.hand << @deck.draw
+      end
     end
   end
 

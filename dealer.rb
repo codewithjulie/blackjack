@@ -1,9 +1,9 @@
-class Dealer
+class Dealer < Player
 
   attr_accessor :hand
 
-  def initialize
-    @name = "Dealer"
+  def initialize(name = "Dealer")
+    @name = name
     @hand = []
   end
 
@@ -20,20 +20,7 @@ class Dealer
     puts
   end
 
-  def hand_value
-    @hand.reduce(0) { |sum, card| sum + card.value }
-  end
-
   def dealer_stand?
     hand_value > 16
   end
-
-  def blackjack?
-    hand_value == 21
-  end
-
-  def bust?
-    hand_value > 21
-  end
-
 end

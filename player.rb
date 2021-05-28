@@ -19,7 +19,7 @@ class Player
   end
 
   def hand_value
-    @hand.reduce(0) { |sum, card| sum + card.value }
+    @hand.reduce(0) {|sum, card| sum + card.value}
   end
 
   def blackjack?
@@ -31,12 +31,10 @@ class Player
   end
 
   def get_play
-    print "#{@name} would you like to stand or hit? "
-    play = gets.chomp.downcase
+    play = prompt_play
     until valid_play?(play)
       puts "I did not understand that input"
-      print "#{@name} would you like to stand or hit? "
-      play = gets.chomp.downcase
+      play = prompt_play
     end
     play
   end
@@ -45,6 +43,10 @@ class Player
     play == "stand" || play == "hit"
   end
 
+  def prompt_play
+    print "#{@name} would you like to stand or hit? "
+    play = gets.chomp.downcase
+  end
 
 end
 

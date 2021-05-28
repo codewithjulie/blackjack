@@ -1,15 +1,16 @@
 require_relative "deck"
 require_relative "player"
 require_relative "card"
+require_relative "dealer"
 require "colorize"
 
 class BlackJack
 
-  attr_accessor :players, :deck, :current_player
+  attr_accessor :players, :deck, :current_player, :dealer
 
   def initialize(players)
     @players = players
-    @players << Player.new("Dealer", true)
+    @dealer = Dealer.new
     @deck = Deck.new
     shuffle
     @current_player = @players.first
@@ -24,6 +25,7 @@ class BlackJack
       @players.each do |player|
         player.hand << @deck.draw
       end
+      @dealer.hand << @deck.draw
     end
   end
 
@@ -42,7 +44,7 @@ class BlackJack
     else
       player_play = @current_player.get_play
       while player_play == "hit"
-        player_hit
+        player_hit(@current_player)
         if @current_player.bust?
           return puts "Sorry you busted".colorize(:red)
         elsif @current_player.blackjack?
@@ -53,21 +55,21 @@ class BlackJack
     end
   end
 
-  def player_hit
+  def player_hit(player)
     hit_card = @deck.draw
     puts "You just received a #{hit_card}"
-    @current_player.hand << hit_card
+    player.hand << hit_card
     print "You now have "
-    @current_player.hand.each {|card| print "#{card} "}
+    player.hand.each {|card| print "#{card} "}
     puts
   end
 
   def dealer_play
-    until @current_player.dealer_stand?
-      player_hit
-      if @current_player.bust?
+    until @dealer.dealer_stand?
+      player_hit(@dealer)
+      if @dealer.bust?
         return puts "Dealer busted".colorize(:red)
-      elsif @current_player.blackjack?
+      elsif @dealer.blackjack?
         return puts "Dealer got twenty-one!".colorize(:green)
       end
     end

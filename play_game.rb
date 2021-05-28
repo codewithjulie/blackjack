@@ -10,8 +10,9 @@ game.deal
 game.players.each do |player|
   player.display_hand
 end
+game.dealer.display_hand
 
-until game.current_player.dealer
+while game.current_player
   game.get_player_play
   game.players.each do |player|
     player.display_hand

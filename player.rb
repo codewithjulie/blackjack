@@ -2,10 +2,10 @@ class Player
 
   attr_accessor :hand, :name, :dealer
 
-  def initialize(name, dealer = false)
+  def initialize(name)
     @name = name
     @hand = []
-    @dealer = dealer
+    @chips = 100
   end
 
   def to_s
@@ -28,10 +28,6 @@ class Player
 
   def bust?
     hand_value > 21
-  end
-
-  def dealer_stand?
-    hand_value > 16
   end
 
   def get_play

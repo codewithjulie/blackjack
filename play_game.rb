@@ -15,7 +15,7 @@ puts "Dealer is holding: "
 game.dealer.hand.display
 
 while game.current_player
-  game.get_player_play
+  game.player_play
   game.players.each do |player|
     player.hand.display
   end

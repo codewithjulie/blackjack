@@ -39,7 +39,7 @@ class BlackJack
     @current_player = @players[(current_index + 1)]
   end
 
-  def get_player_play
+  def player_play
     if @current_player.hand.blackjack?
       return puts "You got Black Jack!".colorize(:green)
     else
@@ -66,6 +66,7 @@ class BlackJack
   end
 
   def dealer_play
+    @dealer.hand.cards.last.facedown = false
     until @dealer.hand.dealer_stand?
       player_hit(@dealer)
       if @dealer.hand.bust?

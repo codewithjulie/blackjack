@@ -23,10 +23,11 @@ class BlackJack
   def deal
     2.times do
       @players.each do |player|
-        player.hand << @deck.draw
+        player.hand.draw(@deck.draw)
       end
-      @dealer.hand << @deck.draw
+      @dealer.hand.draw(@deck.draw)
     end
+    @dealer.hand.cards.last.facedown = true
   end
 
   def current_player
@@ -39,15 +40,15 @@ class BlackJack
   end
 
   def get_player_play
-    if @current_player.blackjack?
+    if @current_player.hand.blackjack?
       return puts "You got Black Jack!".colorize(:green)
     else
       player_play = @current_player.get_play
       while player_play == "hit"
         player_hit(@current_player)
-        if @current_player.bust?
+        if @current_player.hand.bust?
           return puts "Sorry you busted".colorize(:red)
-        elsif @current_player.blackjack?
+        elsif @current_player.hand.blackjack?
           return puts "You got twenty-one!".colorize(:green)
         end
         player_play = @current_player.get_play
@@ -58,18 +59,18 @@ class BlackJack
   def player_hit(player)
     hit_card = @deck.draw
     puts "You just received a #{hit_card}"
-    player.hand << hit_card
-    print "You now have "
-    player.hand.each {|card| print "#{card} "}
+    player.hand.draw(hit_card)
+    puts "You now have "
+    player.hand.display
     puts
   end
 
   def dealer_play
-    until @dealer.dealer_stand?
+    until @dealer.hand.dealer_stand?
       player_hit(@dealer)
-      if @dealer.bust?
+      if @dealer.hand.bust?
         return puts "Dealer busted".colorize(:red)
-      elsif @dealer.blackjack?
+      elsif @dealer.hand.blackjack?
         return puts "Dealer got twenty-one!".colorize(:green)
       end
     end

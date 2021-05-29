@@ -8,14 +8,16 @@ game = BlackJack.new([Player.new("Bob"), Player.new("Mary")])
 game.deal
 
 game.players.each do |player|
-  player.display_hand
+  puts "#{player} is holding: "
+  player.hand.display
 end
-game.dealer.display_hand
+puts "Dealer is holding: "
+game.dealer.hand.display
 
 while game.current_player
   game.get_player_play
   game.players.each do |player|
-    player.display_hand
+    player.hand.display
   end
   game.next_player
 end

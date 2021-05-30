@@ -25,9 +25,9 @@ class Hand
     return false
   end
 
-  def bust?
+  def bust?(player)
     if @value > 21
-      puts "Sorry you busted".colorize(:red)
+      puts "#{player} busted".colorize(:red)
       return true
     else
       return false

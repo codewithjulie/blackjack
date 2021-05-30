@@ -2,12 +2,13 @@ require_relative "hand"
 
 class Player
 
-  attr_accessor :hand, :name, :dealer
+  attr_accessor :hand, :name, :dealer, :in_game
 
   def initialize(name)
     @name = name
     @hand = Hand.new
     @chips = 100
+    @in_game = true
   end
 
   def to_s

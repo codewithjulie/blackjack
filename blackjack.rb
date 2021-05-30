@@ -23,9 +23,9 @@ class BlackJack
   def deal
     2.times do
       @players.each do |player|
-        player.hand.draw(@deck.draw)
+        player.hand.hit(@deck.draw)
       end
-      @dealer.hand.draw(@deck.draw)
+      @dealer.hand.hit(@deck.draw)
     end
     @dealer.hand.cards.last.facedown = true
   end
@@ -40,18 +40,14 @@ class BlackJack
   end
 
   def player_play
-    if @current_player.hand.blackjack?
-      return puts "You got Black Jack!".colorize(:green)
-    else
-      player_play = @current_player.get_play
-      while player_play == "hit"
+    unless @current_player.hand.blackjack?
+      player_call = @current_player.get_play
+      while player_call == "hit"
         player_hit(@current_player)
-        if @current_player.hand.bust?
-          return puts "Sorry you busted".colorize(:red)
-        elsif @current_player.hand.blackjack?
-          return puts "You got twenty-one!".colorize(:green)
+        unless @current_player.hand.blackjack? || @current_player.hand.bust?
+          player_call = @current_player.get_play
         end
-        player_play = @current_player.get_play
+        return
       end
     end
   end
@@ -59,22 +55,32 @@ class BlackJack
   def player_hit(player)
     hit_card = @deck.draw
     puts "You just received a #{hit_card}"
-    player.hand.draw(hit_card)
+    player.hand.hit(hit_card)
     puts "You now have "
     player.hand.display
     puts
   end
 
   def dealer_play
-    @dealer.hand.cards.last.facedown = false
-    until @dealer.hand.dealer_stand?
-      player_hit(@dealer)
-      if @dealer.hand.bust?
-        return puts "Dealer busted".colorize(:red)
-      elsif @dealer.hand.blackjack?
-        return puts "Dealer got twenty-one!".colorize(:green)
+    @dealer.hand.cards.last.flip_card
+    @dealer.hand.display
+    unless @dealer.hand.blackjack?
+      while @dealer.hand.dealer_hit?
+        player_hit(@dealer)
+        if @dealer.hand.bust? || @dealer.hand.blackjack?
+          return
+        end
       end
     end
   end
-
 end
+
+=begin
+
+When it is dealer's turn
+1. Check if dealer has blackjack (change this to check if dealer has blackjac when A is face up card)
+2. Check if dealer is < 17, if so then hit
+
+6. Check if dealer is < 17 if yes then hit, if not then check if dealer has blackjack or bust
+
+=end

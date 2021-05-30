@@ -11,7 +11,21 @@ class Card
   end
 
   def to_s
-    "#{@rank} of #{@suit}"
+    "#{@rank}#{@suit}"
+  end
+
+  def flip_card
+    @facedown = !@facedown
+  end
+
+  def change_ace_value
+    if @rank == "A"
+      @value = 1
+    end
   end
 
 end
+
+# states track attributes for individual objects
+# behaviors are what objects are capable of doing
+

@@ -9,10 +9,4 @@ class Dealer < Player
     @hand = Hand.new
   end
 
-  def face_up
-    print "#{@name} is holding: "
-    @hand.each { |card| print "#{card}, " } 
-    puts
-  end
-
 end

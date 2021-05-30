@@ -1,29 +1,41 @@
+require "colorize"
+
 class Hand
 
-  attr_accessor :cards
+  attr_accessor :cards, :value
 
   def initialize
     @cards = []
+    @value = 0
   end
 
-  def draw(card)
+  def hit(card)
     @cards << card
-  end
-
-  def value
-    @cards.reduce(0) {|sum, card| sum + card.value}
+    @value += card.value
   end
 
   def blackjack?
-    value == 21
+    if @value == 21 && @cards.size == 2
+      puts "You got Blackjack!".colorize(:green)
+      return true
+    elsif @value == 21 && @cards.size > 2
+      puts "You got twenty-one!".colorize(:green)
+      return true
+    end
+    return false
   end
 
   def bust?
-    value > 21
+    if @value > 21
+      puts "Sorry you busted".colorize(:red)
+      return true
+    else
+      return false
+    end
   end
 
-  def dealer_stand?
-    value > 16
+  def dealer_hit?
+    @value <= 16
   end
 
   def display
@@ -33,39 +45,19 @@ class Hand
     end
     puts
     num_cards.times do
-      print_edge
-      print_spaces
-      print_edge
+      print_layer_one
     end
     puts
     @cards.each do |card|
-      print_edge
-      if card.facedown
-        print_top_rank(" ")
-      else
-        print_top_rank(card.rank)
-      end
-      print_edge
+      print_top_rank(card)
     end
     puts
     @cards.each do |card|
-      print_edge
-      if card.facedown
-        print_suit("?")
-      else
-        print_suit(card.suit)
-      end
-      print_edge
+      print_suit(card)
     end
     puts
     @cards.each do |card|
-      print_edge
-      if card.facedown
-        print_bottom_rank(" ")
-      else
-        print_bottom_rank(card.rank)
-      end
-      print_edge
+      print_bottom_rank(card)
     end
     puts
     num_cards.times do
@@ -77,6 +69,12 @@ class Hand
 
   def print_top
     print " _______ "
+  end
+
+  def print_layer_one
+    print_edge
+    print_spaces
+    print_edge
   end
 
   def print_bottom
@@ -91,15 +89,33 @@ class Hand
     print " ".center(7)
   end
 
-  def print_top_rank(rank)
-    print "#{rank}".ljust(7)
+  def print_top_rank(card)
+    print_edge
+    if card.facedown
+      print_spaces
+    else
+      print "#{card.rank}".ljust(7)
+    end
+    print_edge
   end
 
-  def print_suit(suit)
-    print "   #{suit}   "
+  def print_suit(card)
+    print_edge
+    if card.facedown
+      print "   ?   "
+    else
+      print "   #{card.suit}   "
+    end
+    print_edge
   end
 
-  def print_bottom_rank(rank)
-    print "#{rank}".rjust(7)
+  def print_bottom_rank(card)
+    print_edge
+    if card.facedown
+      print_spaces
+    else
+      print "#{card.rank}".rjust(7)
+    end
+    print_edge
   end
 end

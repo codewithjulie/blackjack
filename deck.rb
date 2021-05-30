@@ -17,11 +17,7 @@ class Deck
     @cards = []
     create_deck
   end
-
-  def to_s
-    "Deck of cards"
-  end
-
+  
   def draw
     @cards.pop
   end

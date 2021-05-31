@@ -2,13 +2,15 @@ require_relative "hand"
 
 class Player
 
-  attr_accessor :hand, :name, :dealer, :in_game
+  attr_accessor :hand, :name, :in_game, :dealer, :bet, :chips
 
-  def initialize(name)
+  def initialize(name, dealer = false)
     @name = name
     @hand = Hand.new
     @chips = 100
     @in_game = true
+    @dealer = dealer
+    @bet = 0
   end
 
   def to_s
@@ -31,6 +33,27 @@ class Player
   def prompt_play
     print "#{@name} would you like to stand or hit? "
     play = gets.chomp.downcase
+  end
+
+  def display_chips
+    print "Chips: #{@chips}"
+  end
+
+  def place_bet(bet)
+    if @chips == 0
+      @in_game = false
+      return
+    end
+    if bet < @chips
+      @chips -= bet
+      @bet = bet
+    else
+      puts "You don't have enough"
+    end
+  end
+
+  def display_bet
+    print "Bet placed: #{@bet}"
   end
 
 end

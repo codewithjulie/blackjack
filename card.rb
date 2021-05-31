@@ -15,7 +15,7 @@ class Card
   end
 
   def flip_card
-    @facedown = !@facedown
+    @facedown = false
   end
 
   def change_ace_value

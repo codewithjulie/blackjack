@@ -14,12 +14,12 @@ class Hand
     @value += card.value
   end
 
-  def blackjack?
+  def blackjack?(player)
     if @value == 21 && @cards.size == 2
-      puts "You got Blackjack!".colorize(:green)
+      puts "#{player} got Blackjack!".colorize(:green)
       return true
     elsif @value == 21 && @cards.size > 2
-      puts "You got twenty-one!".colorize(:green)
+      puts "#{player} got twenty-one!".colorize(:green)
       return true
     end
     return false
@@ -38,7 +38,7 @@ class Hand
     @value <= 16
   end
 
-  def display
+  def display(player)
     num_cards = @cards.size
     num_cards.times do
       print_top
@@ -51,9 +51,17 @@ class Hand
     @cards.each do |card|
       print_top_rank(card)
     end
+    unless player.dealer
+      print "  "
+      player.display_chips
+    end
     puts
     @cards.each do |card|
       print_suit(card)
+    end
+    unless player.dealer
+      print "  "
+      player.display_bet
     end
     puts
     @cards.each do |card|

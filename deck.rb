@@ -15,14 +15,14 @@ class Deck
 
   def initialize
     @cards = []
-    create_deck
+    self.create
   end
-  
+
   def draw
     @cards.pop
   end
 
-  def create_deck
+  def create
     SUITS.each do |suit, icon|
       RANKS.each do |rank|
         @cards << Card.new(rank, icon, RANKS_VALUES[rank])
@@ -30,7 +30,7 @@ class Deck
     end
   end
 
-  def shuffle_deck
+  def shuffle
     @cards.shuffle!
   end
 

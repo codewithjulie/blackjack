@@ -20,15 +20,17 @@ class Blackjack
     place_bets
     deal
     system("clear")
-    display_all_players_cards
-    active_players.each do |player| 
-      player_play(player) if player.in_game
+    unless active_players.empty?
+      display_all_players_cards
+      active_players.each do |player| 
+        player_play(player) if player.in_game
+      end
+      dealer_play
     end
-    dealer_play
-    prompt_any_key
   end
 
   def start
+    system("clear")
     @players.each do |player|
       player.bet = 0
       player.hand = Hand.new
@@ -42,7 +44,7 @@ class Blackjack
       active_players.each {|player| player.hit(@deck.deal_card)}
       @dealer.hit(@deck.deal_card)
     end
-    @dealer.hand.cards.last.show = false
+    @dealer.hand.cards.last.flip_card
     display_all_players_cards
     check_all_players_for_natural_blackjack
   end
@@ -54,14 +56,16 @@ class Blackjack
   def player_play(player)
     system("clear")
     display_all_players_cards
-    return if player.hand.blackjack?(player)
     player_call = player.get_play
     while player_call == "hit"
       hit(player)
-      if player.hand.blackjack?(player)
-        payout(player, player.bet * 2)
+      if player.hand.get_value == 21
+        puts "#{player} has twenty-one".colorize(:green)
+        prompt_any_key
         return
-      elsif player.hand.bust?(player)
+      elsif player.hand.bust?
+        player.in_game = false
+        puts "#{player} busted".colorize(:red)
         prompt_any_key
         return
       else
@@ -82,8 +86,7 @@ class Blackjack
 
   def hit(player)
     player.hit(@deck.deal_card)
-    puts "#{player} now has "
-    player.display
+    display_all_players_cards
     puts
   end
 
@@ -96,44 +99,48 @@ class Blackjack
     @dealer.hand.cards.last.flip_card
     display_all_players_cards
     sleep(1)
-    return if active_players.empty?
-    unless @dealer.hand.blackjack?(@dealer)
-      while true
-        if @dealer.hand.get_value < 17
-          hit(@dealer)
-        elsif @dealer.hand.bust?(@dealer)
-          active_players.each {|player| payout(player, player.bet * 2)}
-          return
-        elsif @dealer.hand.blackjack?(@dealer)
-          prompt_any_key
-          return
-        else
-          active_players.each do |player|
-            if player.hand.get_value > @dealer.hand.get_value
-              payout(player, player.bet * 2)
-            elsif player.hand.get_value == @dealer.hand.get_value
-              payout(player, player.bet)
-            end
+    return prompt_any_key if active_players.empty?
+    while true
+      if @dealer.hand.get_value < 17
+        hit(@dealer)
+        sleep(1)
+      elsif @dealer.hand.bust?
+        puts "Dealer busted".colorize(:red)
+        prompt_any_key
+        active_players.each {|player| payout(player, player.bet * 2)}
+        return
+      else
+        active_players.each do |player|
+          if player.hand.get_value > @dealer.hand.get_value
+            payout(player, player.bet * 2)
+          elsif player.hand.get_value == @dealer.hand.get_value
+            payout(player, player.bet)
+          else
+            prompt_any_key
           end
-          return
         end
+        return
       end
     end
   end
 
   def check_all_players_for_natural_blackjack
     @players.each do |player|
-      if player.hand.blackjack?(player)
+      if player.hand.blackjack?
+        puts "#{player} got Blackjack!".colorize(:green)
         prompt_any_key
-        if @dealer.hand.blackjack?(@dealer)
+        if @dealer.hand.blackjack?
+          puts "Dealer got Blackjack!".colorize(:green)
           payout(player, player.bet)
         else
-          payout(player, player.bet * 2.5)
+          payout(player, (player.bet * 2.5).to_i)
         end
       end
     end
-    if @dealer.hand.blackjack?(@dealer)
+    if @dealer.hand.blackjack?
       @dealer.hand.cards.last.flip_card
+      display_all_players_cards
+      puts "Dealer got Blackjack!".colorize(:green)
       @players.map {|player| player.in_game = false}
       prompt_any_key
     end
@@ -147,8 +154,9 @@ class Blackjack
 
   def payout(player, amount)
     player.chips += amount
+    display_all_players_cards
     player.in_game = false
-    puts "#{player} received #{amount}"
+    puts "#{player} received #{amount} chips".colorize(:green)
     prompt_any_key
   end
 

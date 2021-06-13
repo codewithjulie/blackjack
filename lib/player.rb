@@ -39,7 +39,13 @@ class Player
 
   def get_bet
     print "#{@name} place your bet: "
-    @bet = gets.chomp.to_i
+    bet = gets.chomp.to_i
+    until bet > 0
+      puts "Please enter a number greater than 0"
+      print "#{@name} place your bet: "
+      bet = gets.chomp.to_i
+    end
+    @bet = bet
   end
 
   def enough_chips?

@@ -5,14 +5,20 @@ require_relative "blackjack"
 
 system("clear")
 
-bob = Player.new("Bob")
-mary = Player.new("Mary")
+print "How many players? "
+num_players = gets.chomp.to_i
 
-game = Blackjack.new([bob, mary])
+players = []
+
+num_players.times do 
+  print "Enter name of player: "
+  players << Player.new(gets.chomp)
+end
+
+game = Blackjack.new(players)
 
 until game.game_over?
-  system("clear")
   game.play_round
-  game.display_all_players_cards
-  game = Blackjack.new([bob, mary])
+  game = Blackjack.new(players)
 end
+

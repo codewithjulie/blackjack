@@ -18,7 +18,7 @@ class Card
   end
 
   def flip_card
-    @show = true
+    @show = !@show
   end
 
 end

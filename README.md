@@ -2,9 +2,7 @@
 
 Blackjack written in plain Ruby
 
-To play, run 'lib/play_game.rb' or
-
-Head on to [replit](https://replit.com/@codewithjulie/blackjack)
+To play, run 'lib/play_game.rb' or head over to [replit](https://replit.com/@codewithjulie/blackjack)
 
 ![blackjack](blackjack.png?raw=true)
 

@@ -28,13 +28,14 @@ class Player
 
   def place_bet
     return if @dealer || !enough_chips?
-    get_bet
+    bet = get_bet
 
-    if @bet <= @chips
-      @chips -= bet
-    else
+    until bet <= @chips
       puts "You don't have enough"
+      bet = get_bet
     end
+    @chips -= bet
+    @bet = bet
   end
 
   def get_bet

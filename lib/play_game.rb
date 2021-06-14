@@ -5,7 +5,12 @@ require_relative "blackjack"
 
 system("clear")
 
-print "How many players up to 5?"
+puts "Welcome to my Blackjack game"
+puts "For now, all players you enter will have 100 chips"
+puts "The dealer is played by the computer"
+puts "Enter number of players up to 5"
+
+print "How many players?"
 num_players = gets.chomp.to_i
 
 if num_players > 5

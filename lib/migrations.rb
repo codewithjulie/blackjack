@@ -7,11 +7,40 @@ ActiveRecord::Base.establish_connection(
   database: 'blackjack'
 )
 
-class CreateRoundTable < ActiveRecord::Migration[4.2]
+class CreatePlayTable < ActiveRecord::Migration
+  def change
+    create_table :plays do |table|
+      table.integer :player_user_id
+      table.integer :round_id
+      table.integer :bet
+      table.integer :hand_value
+      table.boolean :blackjack?
+      table.timestamps
+    end
+  end
+end
+
+CreatePlayTable.migrate(:down)
+CreatePlayTable.migrate(:up)
+
+
+class CreatePlayerUserTable < ActiveRecord::Migration
+  def change
+    create_table :player_users do |table|
+      table.string :name
+    end
+  end
+end
+
+CreatePlayerUserTable.migrate(:down)
+CreatePlayerUserTable.migrate(:up)
+
+
+class CreateRoundTable < ActiveRecord::Migration
 
   def change
     create_table :rounds do |table|
-      table.integer :num_players
+      table.integer :dealer_value
       table.timestamps
     end
   end
@@ -20,33 +49,3 @@ end
 CreateRoundTable.migrate(:down)
 CreateRoundTable.migrate(:up)
 
-class CreatePlayTable < ActiveRecord::Migration[4.2]
-
-  def change
-    create_table :plays do |table|
-      table.integer :player_id
-      table.integer :bet
-      table.boolean :won?
-      table.integer :hand_value
-      table.boolean :blackjack?
-      table.timestamps
-    end
-  end
-
-end
-
-CreatePlayTable.migrate(:down)
-CreatePlayTable.migrate(:up)
-
-class CreatePlayerTable < ActiveRecord::Migration[4.2]
-
-  def change
-    create_table :players do |table|
-      table.string :name
-    end
-  end
-
-end
-
-CreatePlayerTable.migrate(:down)
-CreatePlayerTable.migrate(:up)

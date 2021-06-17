@@ -1,6 +1,7 @@
 require_relative "deck"
 require_relative "player"
 require_relative "blackjack"
+require_relative "associations.rb"
 
 
 system("clear")
@@ -28,6 +29,11 @@ game = Blackjack.new(players)
 
 until game.game_over?
   game.play_round
+  round = Round.create(dealer_value: game.dealer.hand.get_value)
+  players.each do |player|
+    playerdb = PlayerUser.create(name: player.name)
+    Play.create(player_id: playerdb, bet: player.bet, hand_value: player.hand.get_value, round_id: round.id)
+  end
+  players.each {|player| }
   game = Blackjack.new(players)
 end
-

@@ -3,6 +3,7 @@ require_relative "player"
 require_relative "card"
 require_relative "dealer"
 require "colorize"
+require 'active_record'
 
 class Blackjack
 
@@ -28,6 +29,7 @@ class Blackjack
       dealer_play
     end
   end
+
 
   def start
     system("clear")

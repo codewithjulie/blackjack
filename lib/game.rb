@@ -1,9 +1,14 @@
 require 'active_record'
+require_relative 'associations.rb'
 
-ActiveRecord::Base.establish_connection(
-  adapter: 'postgresql',
-  host: 'localhost',
-  username: 'codewithjulie',
-  database: 'blackjack'
-)
+class GameRecord
 
+  def self.all_rounds
+
+    Round.all
+
+  end
+
+end
+
+puts GameRecord.all_rounds

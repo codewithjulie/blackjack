@@ -51,12 +51,15 @@ class Player
 
   def enough_chips?
     if @chips == 0
-      @in_game = false
+      # once player has no chips, they are out of the game
+      @in_game = false # not related here so add a comment
       return false
     end
     true
   end
 
+  # Break this up and display portions (top, middle, bottom)
+  # if method has 10-12 lines, break it up (code smell)
   def display
     num_cards = @hand.cards.size
     num_cards.times do
@@ -150,7 +153,7 @@ class Player
     print_edge
   end
 
-    def display_bet
+  def display_bet
     print "Bet placed: #{@bet}"
   end
   

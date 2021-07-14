@@ -67,7 +67,6 @@ class Blackjack
         return
       elsif player.hand.bust?
         player.in_game = false
-        puts "#{player} busted".colorize(:red)
         prompt_any_key
         return
       else
@@ -90,6 +89,7 @@ class Blackjack
     player.hit(@deck.deal_card)
     display_all_players_cards
     puts
+    sleep(1) if player.dealer
   end
 
   def prompt_any_key
@@ -100,28 +100,25 @@ class Blackjack
   def dealer_play
     @dealer.hand.cards.last.flip_card
     display_all_players_cards
-    sleep(1)
+    sleep(1)  # To show all cards before dealer autoplays
     return prompt_any_key if active_players.empty?
-    while true
-      if @dealer.hand.get_value < 17
-        hit(@dealer)
-        sleep(1)
-      elsif @dealer.hand.bust?
-        puts "Dealer busted".colorize(:red)
-        prompt_any_key
-        active_players.each {|player| payout(player, player.bet * 2)}
-        return
+    hit(@dealer) while @dealer.hand.get_value < 17
+    payout_players
+  end
+
+  def payout_players
+    if @dealer.hand.bust?
+      prompt_any_key
+      active_players.each {|player| payout(player, player.bet * 2)}
+      prompt_any_key
+    end
+    active_players.each do |player|
+      if player.hand.get_value > @dealer.hand.get_value
+        payout(player, player.bet * 2)
+      elsif player.hand.get_value == @dealer.hand.get_value
+        payout(player, player.bet)
       else
-        active_players.each do |player|
-          if player.hand.get_value > @dealer.hand.get_value
-            payout(player, player.bet * 2)
-          elsif player.hand.get_value == @dealer.hand.get_value
-            payout(player, player.bet)
-          else
-            prompt_any_key
-          end
-        end
-        return
+        prompt_any_key
       end
     end
   end
